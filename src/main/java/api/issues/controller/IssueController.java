@@ -28,11 +28,11 @@ public class IssueController {
         return repo.findAll();
     }
 
-/*    @GetMapping("/get_issue/{id}")
+    @GetMapping("/get_issue/{id}")
     Optional<Issue> one(@PathVariable Long id) {
-        return repo.findById(id);
+        return repo.findById(id)
             .orElseThrow(() -> new IssueNotFoundException(id));
-    }*/
+    }
 
     //Return issue or void?
     @PutMapping("/insert_issue")
