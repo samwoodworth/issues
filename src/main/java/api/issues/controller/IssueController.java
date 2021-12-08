@@ -6,7 +6,7 @@ import java.util.Optional;
 import api.issues.exceptions.IssueNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,13 +29,13 @@ public class IssueController {
     }
 
     @GetMapping("/get_issue/{id}")
-    Optional<Issue> one(@PathVariable Long id) {
-        return repo.findById(id)
+    Issue one(@PathVariable Long id) {
+        return repo.getById(id)
             .orElseThrow(() -> new IssueNotFoundException(id));
     }
 
     //Return issue or void?
-    @PutMapping("/insert_issue")
+    @PostMapping("/insert_issue")
     Issue insertIssue(@RequestBody Issue newIssue) {
         return repo.save(newIssue);
     }
