@@ -11,13 +11,14 @@ public class Issue {
     @GeneratedValue
     private Long id;
     private String issue;
+    private String creatorName;
     //Date created, creator
 
     Issue() {}
 
-    public Issue(Long id, String issue) {
-        this.id = id;
+    public Issue(String issue, String creatorName) {
         this.issue = issue;
+        this.creatorName = creatorName;
     }
 
     public Long getId() {
@@ -36,5 +37,11 @@ public class Issue {
         this.issue = issue;
     }
 
-    
+    public String getCreatorName() {
+        return creatorName;
+    }
+
+    public void setCreatorName(String creatorName) {
+        this.creatorName = creatorName;
+    }
 }
