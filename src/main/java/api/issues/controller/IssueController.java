@@ -30,7 +30,7 @@ public class IssueController {
 
     @GetMapping("/get_issue/{id}")
     Issue one(@PathVariable Long id) {
-        return repo.getById(id)
+        return repo.findById(id)
             .orElseThrow(() -> new IssueNotFoundException(id));
     }
 
