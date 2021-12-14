@@ -1,8 +1,6 @@
 package api.issues.controller;
 
 import java.util.List;
-import java.util.Optional;
-
 import api.issues.exceptions.IssueNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
