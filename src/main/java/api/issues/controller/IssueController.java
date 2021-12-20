@@ -12,6 +12,14 @@ import api.issues.repo.IssueRepo;
 import api.issues.model.Issue;
 
 
+/*
+String authenticated() {
+    if is authenticated
+        let through to api
+    else forward to login
+}
+ */
+
 @RestController
 public class IssueController {
 

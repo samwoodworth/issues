@@ -16,7 +16,7 @@ public class Issue {
     private String creatorName;
     //Date created, creator
 
-    Issue() {}
+    public Issue() {}
 
     public Issue(String issue, String creatorName) {
         this.issue = issue;
