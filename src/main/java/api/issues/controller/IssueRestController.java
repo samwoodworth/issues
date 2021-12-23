@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import api.issues.repo.IssueRepo;
 import api.issues.model.Issue;
 
-
 /*
 String authenticated() {
     if is authenticated
@@ -31,14 +30,15 @@ public class IssueRestController {
 
     @GetMapping("/get_issues")
     List<Issue> all() {
-        System.out.println(repo.findById(1));
         return repo.findAll();
     }
 
     @GetMapping("/get_issue/{id}")
     Issue one(@PathVariable Long id) {
-        return repo.findById(id)
+        Issue foundIssue =  repo.findById(id)
             .orElseThrow(() -> new IssueNotFoundException(id));
+        System.out.print("Creator name: " + foundIssue.getCreatorName());
+        return foundIssue;
     }
 
     //Return issue or void?
@@ -47,3 +47,8 @@ public class IssueRestController {
         return repo.save(newIssue);
     }
 }
+
+/*
+    RestController in security to get loggedin status
+    If true then allow through, if false redirect to login service
+*/
