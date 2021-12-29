@@ -1,7 +1,13 @@
 package api.issues.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 import api.issues.exceptions.IssueNotFoundException;
+
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,17 +34,32 @@ public class IssueRestController {
         this.repo = repo;
     }
 
-    @GetMapping("/get_issues")
-    List<Issue> all() {
+/*     @GetMapping("/get_issues")
+    CollectionModel<EntityModel<Issue>> all() {
+
+        List<EntityModel<Issue>> issue = repo.findAll().stream()
+            .map(issues -> EntityModel.of(issues,
+                linkTo(methodOn(IssueRestController.class).one(issues.getId())).withSelfRel(),
+                linkTo(methodOn(IssueRestController.class).all()).withRel("issues")))
+            .collect(Collectors.toList());
+      
+        return CollectionModel.of(issues, linkTo(methodOn(IssueRestController.class).all()).withSelfRel());
+      } */
+
+      @GetMapping("/get_issues")
+      List<Issue> all() {
         return repo.findAll();
-    }
+      }
+    
 
     @GetMapping("/get_issue/{id}")
-    Issue one(@PathVariable Long id) {
-        Issue foundIssue =  repo.findById(id)
-            .orElseThrow(() -> new IssueNotFoundException(id));
-        System.out.print("Creator name: " + foundIssue.getCreatorName());
-        return foundIssue;
+    EntityModel<Issue> one(@PathVariable Long id) {
+        Issue issue = repo.findById(id) //
+        .orElseThrow(() -> new IssueNotFoundException(id));
+  
+        return EntityModel.of(issue,
+            linkTo(methodOn(IssueRestController.class).one(id)).withSelfRel(),
+            linkTo(methodOn(IssueRestController.class).all()).withRel("issues"));
     }
 
     //Return issue or void?
