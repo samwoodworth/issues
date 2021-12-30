@@ -4,15 +4,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import api.issues.exceptions.IssueNotFoundException;
-
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import api.issues.repo.IssueRepo;
 import api.issues.model.Issue;
@@ -30,43 +24,51 @@ public class IssueRestController {
 
     private final IssueRepo repo;
 
+    //Repo constructor
     IssueRestController(IssueRepo repo) {
         this.repo = repo;
     }
 
-/*     @GetMapping("/get_issues")
-    CollectionModel<EntityModel<Issue>> all() {
+    boolean isAuthed() {
+        boolean authorized = true;
+        if (authorized)
+            return true;
+        else
+            return false;
+    }
 
-        List<EntityModel<Issue>> issue = repo.findAll().stream()
-            .map(issues -> EntityModel.of(issues,
-                linkTo(methodOn(IssueRestController.class).one(issues.getId())).withSelfRel(),
-                linkTo(methodOn(IssueRestController.class).all()).withRel("issues")))
-            .collect(Collectors.toList());
-      
-        return CollectionModel.of(issues, linkTo(methodOn(IssueRestController.class).all()).withSelfRel());
-      } */
+    //Change to @RequestParams?
 
-      @GetMapping("/get_issues")
-      List<Issue> all() {
-        return repo.findAll();
-      }
-    
+    @GetMapping("/get_issues")
+    ResponseEntity<?> all() {
+        if (isAuthed()) {
+            return new ResponseEntity<>(repo.findAll(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
+    }
 
-    @GetMapping("/get_issue/{id}")
-    EntityModel<Issue> one(@PathVariable Long id) {
-        Issue issue = repo.findById(id) //
-        .orElseThrow(() -> new IssueNotFoundException(id));
-  
-        return EntityModel.of(issue,
-            linkTo(methodOn(IssueRestController.class).one(id)).withSelfRel(),
-            linkTo(methodOn(IssueRestController.class).all()).withRel("issues"));
+    @GetMapping("/get_issue")
+    ResponseEntity<?> one(@RequestParam Long id) {
+        //If not found return badRequest http status
+        if (isAuthed()) {
+            Issue foundIssue =  repo.findById(id)
+                    .orElseThrow(() -> new IssueNotFoundException(id));
+            return new ResponseEntity<>(foundIssue, HttpStatus.OK);
+        } else {
+
+            return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
     }
 
     //Return issue or void?
     @PostMapping("/insert_issue")
-    Issue insertIssue(@RequestBody Issue newIssue) {
-        return repo.save(newIssue);
-    }
+    ResponseEntity<?> insertIssue(@RequestBody Issue newIssue) {
+        if (isAuthed()) {
+            return new ResponseEntity<>(repo.save(newIssue), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }    }
 }
 
 /*
