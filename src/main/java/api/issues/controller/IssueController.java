@@ -8,14 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import api.issues.repo.IssueRepo;
 import api.issues.model.Issue;
 
-/*
-String authenticated() {
-    if is authenticated
-        let through to api
-    else forward to login
-}
- */
-
 @RestController
 public class IssueController {
 
@@ -25,6 +17,8 @@ public class IssueController {
     IssueController(IssueRepo repo) {
         this.repo = repo;
     }
+
+    
 
     boolean isAuthed() {
         boolean authorized = true;
@@ -36,7 +30,8 @@ public class IssueController {
 
     //http://localhost:8081/get_issues
     @GetMapping("/get_issues")
-    ResponseEntity<?> all() {
+    ResponseEntity<?> all(@RequestParam String user) {
+        System.out.println("Get issues: " + user);
         if (isAuthed()) {
             return new ResponseEntity<>(repo.findAll(), HttpStatus.OK);
         } else {
