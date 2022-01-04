@@ -20,19 +20,24 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         String username = request.getParameter("user");
 
-        if( username != null)
-            System.out.println("Inside the user parameter if");
-        else
-            System.out.println("Not inside the user parameter if");
+        if (username != null){
+            System.out.println("Inside username if.");
 
-        URLConnection con = new URL("http://localhost:8080/getAuth").openConnection();
-        InputStream inputStream = con.getInputStream();
+            URLConnection con = new URL("http://localhost:8080/getAuth?user=" + username).openConnection();
+            InputStream inputStream = con.getInputStream();
 
-        try (Scanner scanner = new Scanner(inputStream)) {
-            String responseBody = scanner.useDelimiter("\\A").next();
-            System.out.println("Output is: " + responseBody);
+            try (Scanner scanner = new Scanner(inputStream)) {
+                String responseBody = scanner.useDelimiter("\\A").next();
+                System.out.println("Output is: " + responseBody);
+            }
+
+            return true;
+
+        } else {
+            System.out.println("No parameter passed.");
+            return false;
         }
 
-        return true;
+
     }
 }

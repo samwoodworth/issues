@@ -31,7 +31,6 @@ public class IssueController {
     //http://localhost:8081/get_issues
     @GetMapping("/get_issues")
     ResponseEntity<?> all(@RequestParam String user) {
-        System.out.println("Get issues: " + user);
         if (isAuthed()) {
             return new ResponseEntity<>(repo.findAll(), HttpStatus.OK);
         } else {
@@ -41,7 +40,7 @@ public class IssueController {
 
     //http://localhost:8081/get_issue?id=1
     @GetMapping("/get_issue")
-    ResponseEntity<?> one(@RequestParam Long id) {
+    ResponseEntity<?> one(@RequestParam("id") Long id, @RequestParam("user") String user) {
         //If not found return badRequest http status
         if (isAuthed()) {
             Issue foundIssue =  repo.findById(id)
@@ -56,7 +55,7 @@ public class IssueController {
     //Return issue or void?
     //http://localhost:8081/insert_issue + Issue JSON
     @PostMapping("/insert_issue")
-    ResponseEntity<?> insertIssue(@RequestBody Issue newIssue) {
+    ResponseEntity<?> insertIssue(@RequestBody Issue newIssue, @RequestParam String user) {
         if (isAuthed()) {
             return new ResponseEntity<>(repo.save(newIssue), HttpStatus.OK);
         } else {
