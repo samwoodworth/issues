@@ -14,7 +14,6 @@ public class Issue {
     private Long id;
     private String issue;
     private String creatorName;
-    //Date created, creator
 
     public Issue() {}
 

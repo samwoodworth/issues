@@ -18,6 +18,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         System.out.println("Prehandle method");
 
+        String responseBody;
         String username = request.getParameter("user");
 
         if (username != null){
@@ -27,17 +28,18 @@ public class AuthInterceptor implements HandlerInterceptor {
             InputStream inputStream = con.getInputStream();
 
             try (Scanner scanner = new Scanner(inputStream)) {
-                String responseBody = scanner.useDelimiter("\\A").next();
-                System.out.println("Output is: " + responseBody);
+                responseBody = scanner.useDelimiter("\\A").next();
             }
 
-            return true;
-
+            if (responseBody.equals("true")) {
+                return true;
+            } else {
+                System.out.println("Not signed in.");
+                return false;
+            }
         } else {
             System.out.println("No parameter passed.");
             return false;
         }
-
-
     }
 }
