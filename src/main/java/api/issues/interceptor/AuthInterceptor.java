@@ -32,14 +32,16 @@ public class AuthInterceptor implements HandlerInterceptor {
             }
 
             if (responseBody.equals("true")) {
+                System.out.println();
                 return true;
             } else {
-                System.out.println("Not signed in.");
+                System.out.println(responseBody + "is not signed in.\n");
                 return false;
             }
         } else {
-            System.out.println("No parameter passed.");
+            System.out.println("No parameter passed.\n");
             return false;
         }
+
     }
 }

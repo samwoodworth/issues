@@ -18,8 +18,6 @@ public class IssueController {
         this.repo = repo;
     }
 
-    
-
     boolean isAuthed() {
         boolean authorized = true;
         if (authorized)
@@ -28,7 +26,7 @@ public class IssueController {
             return false;
     }
 
-    //http://localhost:8081/get_issues
+    //http://localhost:8081/get_issues?user=admin
     @GetMapping("/get_issues")
     ResponseEntity<?> all(@RequestParam String user) {
         if (isAuthed()) {
@@ -38,7 +36,7 @@ public class IssueController {
         }
     }
 
-    //http://localhost:8081/get_issue?id=1
+    //http://localhost:8081/get_issue?id=1&user=admin
     @GetMapping("/get_issue")
     ResponseEntity<?> one(@RequestParam("id") Long id, @RequestParam("user") String user) {
         //If not found return badRequest http status
@@ -53,7 +51,7 @@ public class IssueController {
     }
 
     //Return issue or void?
-    //http://localhost:8081/insert_issue + Issue JSON
+    //http://localhost:8081/insert_issue?user=admin + Issue JSON
     @PostMapping("/insert_issue")
     ResponseEntity<?> insertIssue(@RequestBody Issue newIssue, @RequestParam String user) {
         if (isAuthed()) {
@@ -63,8 +61,3 @@ public class IssueController {
         }    
     }
 }
-
-/*
-    RestController in security to get loggedin status
-    If true then allow through, if false redirect to login service
-*/
