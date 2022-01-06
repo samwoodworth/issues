@@ -1,7 +1,6 @@
 server:
   port: 8081
 
-
 eureka:
   client:
     register-with-eureka: true
@@ -12,12 +11,16 @@ eureka:
     hostname: localhost
 
 spring:
-  application:
-    name: ISSUES-SERVICE
   h2:
     console:
       enabled: 'true'
     datasource:
       platform: h2
-      url: 'jdbc:h2:mem:sam'
-      
+      url: 'jdbc:h2:mem:sam1'
+      username: user
+      password: pass
+  application:
+    name: ISSUES-SERVICE
+
+  jpa:
+    defer-datasource-initialization: 'true'

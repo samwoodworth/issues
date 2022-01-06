@@ -35,7 +35,7 @@ public class AuthInterceptor implements HandlerInterceptor {
                 System.out.println();
                 return true;
             } else {
-                System.out.println(responseBody + "is not signed in.\n");
+                System.out.println("Not signed in.\n");
                 return false;
             }
         } else {
