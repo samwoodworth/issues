@@ -45,7 +45,7 @@ public class IssueController {
                     .orElseThrow(() -> new IssueNotFoundException(id));
             return new ResponseEntity<>(foundIssue, HttpStatus.OK);
         } else {
-
+            //Not used
             return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
         }
     }

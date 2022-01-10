@@ -36,7 +36,11 @@ public class AuthInterceptor implements HandlerInterceptor {
                 return true;
             } else {
                 System.out.println("Not signed in.\n");
+                response.setStatus(401);
+
+                //response.sendRedirect("http://localhost:8080/login");  //Do I want this? Doesn't give 401 status
                 return false;
+
             }
         } else {
             System.out.println("No parameter passed.\n");
