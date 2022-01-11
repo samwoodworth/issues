@@ -42,7 +42,7 @@ public class IssueController {
         //If not found return badRequest http status
         if (isAuthed()) {
             Issue foundIssue =  repo.findById(id)
-                    .orElseThrow(() -> new IssueNotFoundException(id));
+                .orElseThrow(() -> new IssueNotFoundException(id));
             return new ResponseEntity<>(foundIssue, HttpStatus.OK);
         } else {
             //Not used

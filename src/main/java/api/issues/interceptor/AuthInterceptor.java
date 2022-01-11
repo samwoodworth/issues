@@ -24,6 +24,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         if (username != null){
             System.out.println("Inside username if.");
 
+            //Add token to url?
             URLConnection con = new URL("http://localhost:8080/getAuth?user=" + username).openConnection();
             InputStream inputStream = con.getInputStream();
 
