@@ -35,7 +35,6 @@ public class IssueController {
         return new ResponseEntity<>(foundIssue, HttpStatus.OK);
     }
 
-    //Return issue or void?
     //http://localhost:8081/insert_issue?user=admin + Issue JSON
     @PostMapping("/insert_issue")
     ResponseEntity<?> insertIssue(@RequestBody Issue newIssue, @RequestParam String user) {
