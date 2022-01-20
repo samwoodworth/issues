@@ -16,15 +16,12 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println("Prehandle method");
 
         String responseBody;
         String username = request.getParameter("user");
 
         if (username != null){
-            System.out.println("Inside username if.");
 
-            //Add token to url?
             URLConnection con = new URL("http://localhost:8080/getAuth?user=" + username).openConnection();
             InputStream inputStream = con.getInputStream();
 
@@ -33,15 +30,13 @@ public class AuthInterceptor implements HandlerInterceptor {
             }
 
             if (responseBody.equals("true")) {
-                System.out.println();
                 return true;
             } else {
                 System.out.println("Not signed in.\n");
                 response.setStatus(401);
 
-                //response.sendRedirect("http://localhost:8080/login");  //Do I want this? Doesn't give 401 status
+                //response.sendRedirect("http://localhost:8080/login");  //Doesn't give 401 status
                 return false;
-
             }
         } else {
             System.out.println("No parameter passed.\n");
