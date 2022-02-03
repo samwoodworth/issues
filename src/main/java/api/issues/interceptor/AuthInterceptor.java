@@ -21,7 +21,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         String username = request.getParameter("user");
 
         if (username != null){
-
+            //Look at HttpServletRequest documentation, specifically getUserPrincipal
             URLConnection con = new URL("http://localhost:8080/getAuth?user=" + username).openConnection();
             InputStream inputStream = con.getInputStream();
 
