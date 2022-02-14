@@ -20,7 +20,6 @@ public class IssueController {
     @Autowired
     private final IssueRepo repo;
 
-    //Repo constructor
     IssueController(IssueRepo repo) {
         this.repo = repo;
     }
