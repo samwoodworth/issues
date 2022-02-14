@@ -2,6 +2,7 @@ package api.issues.controller;
 
 import api.issues.exceptions.IssueNotFoundException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import api.issues.repo.IssueRepo;
 import api.issues.model.Issue;
+
+import javax.ws.rs.PathParam;
 
 @Controller
 public class IssueController {
@@ -47,5 +50,17 @@ public class IssueController {
     @PostMapping("/insert_issue")
     ResponseEntity<?> insertIssue(@RequestBody Issue newIssue, @RequestParam String user) {
         return new ResponseEntity<>(repo.save(newIssue), HttpStatus.OK);
+    }
+
+    @PostMapping("/add_many/{num}")
+    ResponseEntity<?> insertN(@PathParam("num") int num, @RequestParam String user) {
+
+        List<Issue> issueList = new ArrayList<>();
+
+        for (int n=0; n<num; n++) {
+            long count = repo.count()+n+1;
+            issueList.add(new Issue("Issue #"+count, "Creator #"+count));
+        }
+        return new ResponseEntity<>(repo.saveAll(issueList), HttpStatus.OK);
     }
 }
