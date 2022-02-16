@@ -18,8 +18,8 @@ class LoadDatabase {
   CommandLineRunner initDatabase(IssueRepo repository) {
 
     return args -> {
-      log.info("Preloading " + repository.save(new Issue("Issue 1", "Sam Woodworth")));
-      log.info("Preloading " + repository.save(new Issue("Issue 2", "Sam Woodworth")));
+      log.info("Preloading " + repository.save(new Issue("Issue #1", "Creator #1")));
+      log.info("Preloading " + repository.save(new Issue("Issue #2", "Creator #2")));
     };
   }
 }

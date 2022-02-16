@@ -53,7 +53,7 @@ public class IssueController {
     }
 
     @PostMapping("/add_many/{num}")
-    ResponseEntity<?> insertN(@PathParam("num") int num, @RequestParam String user) {
+    ResponseEntity<?> insertN(@PathVariable("num") int num, @RequestParam String user) {
 
         List<Issue> issueList = new ArrayList<>();
 
