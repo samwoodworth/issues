@@ -36,11 +36,11 @@ public class AuthInterceptor implements HandlerInterceptor {
                 response.setStatus(401);
 
                 //response.sendRedirect("http://localhost:8080/login");  //Doesn't give 401 status
-                return false;
+                return false;  //ONLY FOR TESTING. CHANGE TO FALSE WHEN DONE
             }
         } else {
             System.out.println("No parameter passed.\n");
-            return false;
+            return false; //ONLY FOR TESTING. CHANGE TO FALSE WHEN DONE
         }
 
     }
