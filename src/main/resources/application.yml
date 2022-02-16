@@ -26,7 +26,15 @@ spring:
     defer-datasource-initialization: 'true'
 
 management:
+  trace:
+    http:
+      enabled: true
   endpoints:
     web:
       exposure:
         include: "*"
+  endpoint:
+    health:
+      show-details: always
+    beans:
+      enabled: true
