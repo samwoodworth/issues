@@ -63,4 +63,10 @@ public class IssueController {
         }
         return new ResponseEntity<>(repo.saveAll(issueList), HttpStatus.OK);
     }
+
+    @PostMapping("/add_one")
+    ResponseEntity<?> insertOne(@RequestParam String user) {
+        long count = repo.count()+1;
+        return new ResponseEntity<>(repo.save(new Issue("Issue #"+count, "Creator #"+count)), HttpStatus.OK);
+    }
 }
