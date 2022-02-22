@@ -15,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 import api.issues.repo.IssueRepo;
 import api.issues.model.Issue;
 
-import javax.ws.rs.PathParam;
 
 @Controller
 public class IssueController {
