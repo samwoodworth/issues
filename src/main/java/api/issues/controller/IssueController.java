@@ -15,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 import api.issues.repo.IssueRepo;
 import api.issues.model.Issue;
 
-
 @Controller
 public class IssueController {
 
@@ -29,20 +28,15 @@ public class IssueController {
     //http://localhost:8081/get_issues?user=admin
     @GetMapping("/get_issues")
     ModelAndView all(@RequestParam String user) {
-        List<Issue> foundIssues = repo.findAll();
-        //ModelAndView mv = new ModelAndView()
-        return new ModelAndView("printIssues", "issues", foundIssues);
-        //return new ResponseEntity<>(repo.findAll(), HttpStatus.OK);
+        return new ModelAndView("printIssues", "issues", repo.findAll());
     }
 
     //http://localhost:8081/get_issue?id=1&user=admin
     @GetMapping("/get_issue")
     ModelAndView one(@RequestParam("id") Long id, @RequestParam("user") String user) {
-        //If not found return badRequest http status
         Issue foundIssue =  repo.findById(id)
                 .orElseThrow(() -> new IssueNotFoundException(id));
         return new ModelAndView("printIssue", "issue", foundIssue);
-        //return new ResponseEntity<>(foundIssue, HttpStatus.OK);
     }
 
     //http://localhost:8081/insert_issue?user=admin + Issue JSON

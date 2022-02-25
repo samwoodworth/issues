@@ -20,11 +20,8 @@ public class AuthInterceptor implements HandlerInterceptor {
         String responseBody;
         String username = request.getParameter("user");
 
-        return true;
-
         //Remove comment after testing
-/*        if (username != null){
-            //Look at HttpServletRequest documentation, specifically getUserPrincipal
+        if (username != null){
             URLConnection con = new URL("http://localhost:8080/getAuth?user=" + username).openConnection();
             InputStream inputStream = con.getInputStream();
 
@@ -39,12 +36,11 @@ public class AuthInterceptor implements HandlerInterceptor {
                 response.setStatus(401);
 
                 //response.sendRedirect("http://localhost:8080/login");  //Doesn't give 401 status
-                return false;  //ONLY FOR TESTING. CHANGE TO FALSE WHEN DONE
+                return false;
             }
-        } else {
+        } else
             //System.out.println("No parameter passed.\n");
-            return false; //ONLY FOR TESTING. CHANGE TO FALSE WHEN DONE
-        }*/
+            return false;
 
     }
 }
