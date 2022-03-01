@@ -2,11 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Get By ID</title>
+    <title>Insert Issue</title>
 </head>
 <body>
-    <form action="#" th:action="@{/get_issue}" th:object="${issue}" method="post">
+    <form action="#" th:action="@{/insert_issue}" th:object="${issue}" method="post">
         <p>ID: <input type="text" th:field="*{id}"></p>
+        <p>Creator Name: <input type="text" th:field="*{creatorName}"></p>
         <p><input type="submit" value="Submit"></p>
     </form>
 </body>

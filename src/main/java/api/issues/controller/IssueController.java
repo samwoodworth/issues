@@ -26,20 +26,19 @@ public class IssueController {
         this.repo = repo;
     }
 
-    //http://localhost:8081/get_issues?user=admin
+    @GetMapping("/")
+    ModelAndView index() {
+        return new ModelAndView("home");
+    }
+
     @GetMapping("/get_issues")
-    ModelAndView all(@RequestParam String user) {
+    ModelAndView all(/*@RequestParam String user*/) {
         return new ModelAndView("printIssues", "issues", repo.findAll());
     }
 
-    //http://localhost:8081/get_issue?id=1&user=admin
     @GetMapping("/get_issue")
     ModelAndView one() {
         return new ModelAndView("getIssueForm", "issue", new Issue());
-/*
-        Issue foundIssue =  repo.findById(id)
-                .orElseThrow(() -> new IssueNotFoundException(id));
-        return new ModelAndView("printIssue", "issue", foundIssue);*/
     }
 
     @PostMapping("/get_issue")
@@ -49,14 +48,21 @@ public class IssueController {
         return new ModelAndView("getIssueResult", "foundIssue", foundIssue);
     }
 
-    //http://localhost:8081/insert_issue?user=admin + Issue JSON
+    @GetMapping("/insert_issue")
+    ModelAndView insertIssue() {
+        return new ModelAndView("insertIssueForm", "issue", new Issue());
+    }
+
+    //Check if already exists
     @PostMapping("/insert_issue")
-    ResponseEntity<?> insertIssue(@RequestBody Issue newIssue, @RequestParam String user) {
-        return new ResponseEntity<>(repo.save(newIssue), HttpStatus.OK);
+    ModelAndView insertIssue(@ModelAttribute Issue issue) {
+        System.out.println("ID: " + issue.getId());
+        repo.save(issue);
+        return new ModelAndView("insertIssueResult", "issue", issue);
     }
 
     @PostMapping("/add_many/{num}")
-    ResponseEntity<?> insertN(@PathVariable("num") int num, @RequestParam String user) {
+    ResponseEntity<?> insertN(@PathVariable("num") int num) {
 
         List<Issue> issueList = new ArrayList<>();
 
@@ -68,7 +74,7 @@ public class IssueController {
     }
 
     @PostMapping("/add_one")
-    ResponseEntity<?> insertOne(@RequestParam String user) {
+    ResponseEntity<?> insertOne() {
         long count = repo.count()+1;
         repo.save(new Issue("Issue #"+count, "Creator #"+count));
         return new ResponseEntity<>(HttpStatus.OK);
