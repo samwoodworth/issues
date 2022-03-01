@@ -56,7 +56,6 @@ public class IssueController {
     //Check if already exists
     @PostMapping("/insert_issue")
     ModelAndView insertIssue(@ModelAttribute Issue issue) {
-        System.out.println("ID: " + issue.getId());
         repo.save(issue);
         return new ModelAndView("insertIssueResult", "issue", issue);
     }

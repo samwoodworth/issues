@@ -6,7 +6,7 @@
 </head>
 <body>
     <form action="#" th:action="@{/insert_issue}" th:object="${issue}" method="post">
-        <p>ID: <input type="text" th:field="*{id}"></p>
+        <p>Issue Description: <input type="text" th:field="*{issueDesc}"></p>
         <p>Creator Name: <input type="text" th:field="*{creatorName}"></p>
         <p><input type="submit" value="Submit"></p>
     </form>

@@ -13,7 +13,7 @@
             </tr>
             <tr th:each="issue : ${issues}">
                 <td class="align-middle" th:text="${issue.id}"></td>
-                <td class="align-middle" th:text="${issue.issue}"></td>
+                <td class="align-middle" th:text="${issue.issueDesc}"></td>
                 <td class="align-middle" th:text="${issue.creatorName}"></td>
             </tr>
         </table>

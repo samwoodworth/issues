@@ -12,7 +12,7 @@ public class Issue {
     @Id
     @GeneratedValue
     private Long id;
-    private String issue;
+    private String issueDesc;
     private String creatorName;
 
     public Issue() {}
@@ -21,8 +21,8 @@ public class Issue {
         this.id = id;
     }
 
-    public Issue(String issue, String creatorName) {
-        this.issue = issue;
+    public Issue(String issueDesc, String creatorName) {
+        this.issueDesc = issueDesc;
         this.creatorName = creatorName;
     }
 
@@ -34,12 +34,12 @@ public class Issue {
         this.id = id;
     }
 
-    public String getIssue() {
-        return issue;
+    public String getIssueDesc() {
+        return issueDesc;
     }
 
-    public void setIssue(String issue) {
-        this.issue = issue;
+    public void setIssueDesc(String issueDesc) {
+        this.issueDesc = issueDesc;
     }
 
     public String getCreatorName() {
@@ -51,23 +51,11 @@ public class Issue {
     }
 
     @Override
-    public boolean equals(Object o) {
-  
-        if (this == o)
-            return true;
-        if (!(o instanceof Issue))
-            return false;
-        Issue issue = (Issue) o;
-        return Objects.equals(this.id, issue.id) && Objects.equals(this.issue, issue.issue) && Objects.equals(this.creatorName, issue.creatorName);
-    }
-  
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.id, this.issue, this.creatorName);
-    }
-  
-    @Override
     public String toString() {
-      return "Issue{" + "id=" + this.id + ", issue='" + this.issue + '\'' + ", creatorName='" + this.creatorName + '\'' + '}';
+        return "Issue{" +
+                "id=" + id +
+                ", issueDesc='" + issueDesc + '\'' +
+                ", creatorName='" + creatorName + '\'' +
+                '}';
     }
 }
