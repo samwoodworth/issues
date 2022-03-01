@@ -20,7 +20,8 @@ public class AuthInterceptor implements HandlerInterceptor {
         String responseBody;
         String username = request.getParameter("user");
 
-        //Remove comment after testing
+        return true;
+/*        //Remove comment after testing
         if (username != null){
             URLConnection con = new URL("http://localhost:8080/getAuth?user=" + username).openConnection();
             InputStream inputStream = con.getInputStream();
@@ -40,7 +41,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             }
         } else
             //System.out.println("No parameter passed.\n");
-            return false;
+            return false;*/
 
     }
 }

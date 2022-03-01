@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -33,10 +34,19 @@ public class IssueController {
 
     //http://localhost:8081/get_issue?id=1&user=admin
     @GetMapping("/get_issue")
-    ModelAndView one(@RequestParam("id") Long id, @RequestParam("user") String user) {
+    ModelAndView one() {
+        return new ModelAndView("getIssueForm", "issue", new Issue());
+/*
         Issue foundIssue =  repo.findById(id)
                 .orElseThrow(() -> new IssueNotFoundException(id));
-        return new ModelAndView("printIssue", "issue", foundIssue);
+        return new ModelAndView("printIssue", "issue", foundIssue);*/
+    }
+
+    @PostMapping("/get_issue")
+    ModelAndView one(@ModelAttribute Issue issue) {
+        Issue foundIssue =  repo.findById(issue.getId())
+                .orElseThrow(() -> new IssueNotFoundException(issue.getId()));
+        return new ModelAndView("getIssueResult", "foundIssue", foundIssue);
     }
 
     //http://localhost:8081/insert_issue?user=admin + Issue JSON

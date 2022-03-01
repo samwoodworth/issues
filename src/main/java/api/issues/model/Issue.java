@@ -17,6 +17,10 @@ public class Issue {
 
     public Issue() {}
 
+    public Issue(Long id) {
+        this.id = id;
+    }
+
     public Issue(String issue, String creatorName) {
         this.issue = issue;
         this.creatorName = creatorName;
