@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Find By Id</title>
+</head>
+<body>
+    <h1>Find By ID</h1>
+    <form action="#" th:action="@{/get_issue}" th:object="${issue}" method="post">
+        <p>Id: <input type="text" th:field="*{id}"></p>
+<!--        <p>Issue: <input type="text" th:field="*{issue}" /></p>
+        <p>Creator name: <input type="text" th:field="*{creatorName}" /></p>-->
+
+        <p><input type="submit" value="Submit"> <input type="reset" value="Reset"></p>
+    </form>
+</body>
+</html>
