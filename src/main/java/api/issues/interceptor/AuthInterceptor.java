@@ -6,8 +6,11 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Arrays;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,14 +23,23 @@ public class AuthInterceptor implements HandlerInterceptor {
         String responseBody;
         String username = request.getParameter("user");
 
-        return true;
-/*        //Remove comment after testing
         if (username != null){
             URLConnection con = new URL("http://localhost:8080/getAuth?user=" + username).openConnection();
             InputStream inputStream = con.getInputStream();
 
             try (Scanner scanner = new Scanner(inputStream)) {
                 responseBody = scanner.useDelimiter("\\A").next();
+            }
+
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                Arrays.stream(cookies)
+                        .map(c -> c.getName() + "=" + c.getValue()).collect(Collectors.joining(", "));
+            } else
+                System.out.println("No cookies");
+
+            for (Cookie cookie : cookies) {
+                System.out.println(cookie);
             }
 
             if (responseBody.equals("true")) {
@@ -41,7 +53,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             }
         } else
             //System.out.println("No parameter passed.\n");
-            return false;*/
+            return false;
 
     }
 }
