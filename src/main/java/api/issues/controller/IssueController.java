@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import api.issues.repo.IssueRepo;
 import api.issues.model.Issue;
+import api.issues.model.CreateMany;
 
 @Controller
 public class IssueController {
@@ -27,55 +27,61 @@ public class IssueController {
     }
 
     @GetMapping("/")
-    ModelAndView index() {
+    public ModelAndView index() {
         return new ModelAndView("home");
     }
 
     @GetMapping("/get_issues")
-    ModelAndView all(/*@RequestParam String user*/) {
+    public ModelAndView all(/*@RequestParam String user*/) {
         return new ModelAndView("printIssues", "issues", repo.findAll());
     }
 
     @GetMapping("/get_issue")
-    ModelAndView one() {
+    public ModelAndView one() {
         return new ModelAndView("getIssueForm", "issue", new Issue());
     }
 
     @PostMapping("/get_issue")
-    ModelAndView one(@ModelAttribute Issue issue) {
+    public ModelAndView one(@ModelAttribute Issue issue) {
         Issue foundIssue =  repo.findById(issue.getId())
                 .orElseThrow(() -> new IssueNotFoundException(issue.getId()));
         return new ModelAndView("getIssueResult", "foundIssue", foundIssue);
     }
 
     @GetMapping("/insert_issue")
-    ModelAndView insertIssue() {
+    public ModelAndView insertIssue() {
         return new ModelAndView("insertIssueForm", "issue", new Issue());
     }
 
     //Check if already exists
     @PostMapping("/insert_issue")
-    ModelAndView insertIssue(@ModelAttribute Issue issue) {
+    public ModelAndView insertIssue(@ModelAttribute Issue issue) {
         repo.save(issue);
         return new ModelAndView("insertIssueResult", "issue", issue);
     }
 
-    @PostMapping("/add_many/{num}")
-    ResponseEntity<?> insertN(@PathVariable("num") int num) {
+    @GetMapping("/add_many")
+    public ModelAndView insertN() {
+        return new ModelAndView("addManyForm", "createMany", new CreateMany());
+    }
+
+    @PostMapping("/add_many")
+    public ModelAndView insertN(@ModelAttribute CreateMany createMany) {
 
         List<Issue> issueList = new ArrayList<>();
 
-        for (int n=0; n<num; n++) {
+        for (int n=0; n<createMany.getNumToCreate(); n++) {
             long count = repo.count()+n+1;
             issueList.add(new Issue("Issue #"+count, "Creator #"+count));
         }
-        return new ResponseEntity<>(repo.saveAll(issueList), HttpStatus.OK);
+        repo.saveAll(issueList);
+        return new ModelAndView("addManyResult", "numToCreate", createMany);
     }
 
-    @PostMapping("/add_one")
-    ResponseEntity<?> insertOne() {
+    @GetMapping("/add_one")
+    public ModelAndView insertOne() {
         long count = repo.count()+1;
         repo.save(new Issue("Issue #"+count, "Creator #"+count));
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ModelAndView("addOne", "count", repo.count());
     }
 }
