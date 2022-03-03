@@ -4,18 +4,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.Arrays;
+import java.net.*;
 import java.util.Scanner;
-import java.util.stream.Collectors;
-
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
+
+    String currentUser;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -31,15 +28,20 @@ public class AuthInterceptor implements HandlerInterceptor {
                 responseBody = scanner.useDelimiter("\\A").next();
             }
 
-            Cookie[] cookies = request.getCookies();
-            if (cookies != null) {
-                Arrays.stream(cookies)
-                        .map(c -> c.getName() + "=" + c.getValue()).collect(Collectors.joining(", "));
-            } else
-                System.out.println("No cookies");
+            CookieManager cookieManager = new CookieManager();
+            CookieHandler.setDefault(cookieManager);
 
-            for (Cookie cookie : cookies) {
-                System.out.println(cookie);
+            String headerName;
+            for (int i=1; (headerName = con.getHeaderFieldKey(i))!=null; i++) {
+                if (headerName.equals("Set-Cookie")) {
+                    String cookie = con.getHeaderField(i);
+                    System.out.println("Cookie is: " + cookie);
+//                    cookie = cookie.substring(0, cookie.indexOf(";"));
+                    String cookieName = cookie.substring(0, cookie.indexOf("="));
+                    String cookieValue = cookie.substring(cookie.indexOf("=") + 1);
+                    System.out.println("Name is: " +cookieName + " and value is: " + cookieValue);
+
+                }
             }
 
             if (responseBody.equals("true")) {
@@ -54,6 +56,5 @@ public class AuthInterceptor implements HandlerInterceptor {
         } else
             //System.out.println("No parameter passed.\n");
             return false;
-
     }
 }
