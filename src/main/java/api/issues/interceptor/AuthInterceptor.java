@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
 
-    String currentUser;
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
@@ -21,8 +19,30 @@ public class AuthInterceptor implements HandlerInterceptor {
         String responseBody;
         String username = request.getParameter("user");
 
-        if (username != null){
-            URLConnection con = new URL("http://localhost:8080/getAuth?user=" + username).openConnection();
+        URLConnection con = new URL("http://localhost:8080/getAuth").openConnection();
+        InputStream inputStream = con.getInputStream();
+
+        try (Scanner scanner = new Scanner(inputStream)) {
+            responseBody = scanner.useDelimiter("\\A").next();
+        }
+
+        CookieManager cookieManager = new CookieManager();
+        CookieHandler.setDefault(cookieManager);
+
+        String headerName;
+        for (int i = 1; (headerName = con.getHeaderFieldKey(i)) != null; i++) {
+            if (headerName.equals("Set-Cookie")) {
+                String cookie = con.getHeaderField(i);
+                System.out.println("Cookie is: " + cookie);
+                String cookieName = cookie.substring(0, cookie.indexOf("="));
+                String cookieValue = cookie.substring(cookie.indexOf("=") + 1);
+                System.out.println("Name is: " + cookieName + " and value is: " + cookieValue);
+
+            }
+        }
+
+/*        if (username != null){
+            URLConnection con = new URL("http://localhost:8080/getAuth" + username).openConnection();
             InputStream inputStream = con.getInputStream();
 
             try (Scanner scanner = new Scanner(inputStream)) {
@@ -43,9 +63,9 @@ public class AuthInterceptor implements HandlerInterceptor {
                     System.out.println("Name is: " +cookieName + " and value is: " + cookieValue);
 
                 }
-            }
+            }*/
 
-            if (responseBody.equals("true")) {
+/*            if (responseBody.equals("true")) {
                 return true;
             } else {
                 //System.out.println("Not signed in.\n");
@@ -56,6 +76,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             }
         } else
             //System.out.println("No parameter passed.\n");
-            return false;
+            return false;*/
+        return true;
     }
 }
