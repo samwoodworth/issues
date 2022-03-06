@@ -2,13 +2,11 @@ package api.issues.interceptor;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-
-import java.io.InputStream;
-import java.net.*;
-import java.util.Scanner;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URL;
+import java.net.URLConnection;
 
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
@@ -17,7 +15,6 @@ public class AuthInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         URLConnection con = new URL("http://localhost:8080/getAuth").openConnection();
-        InputStream inputStream = con.getInputStream();
 
         //Checking for JSESSIONID cookie
         Cookie[] cookies = request.getCookies();
