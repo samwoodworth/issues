@@ -22,6 +22,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             if (cookie.getName().equals("JSESSIONID"))
                 return true;
         }
+
         return false;
     }
 }
