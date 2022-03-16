@@ -52,7 +52,7 @@ public class IssueController {
     }
 
     @GetMapping("/get_issues")
-    public ModelAndView all(/*@RequestParam String user*/) {
+    public ModelAndView all() {
         return new ModelAndView("printIssues", "issues", repo.findAll());
     }
 
