@@ -2,8 +2,6 @@ package api.issues.controller;
 
 import api.issues.exceptions.IssueNotFoundException;
 
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +13,6 @@ import api.issues.repo.IssueRepo;
 import api.issues.model.Issue;
 import api.issues.model.CreateMany;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-
 @Controller
 public class IssueController {
 
@@ -26,24 +21,6 @@ public class IssueController {
 
     IssueController(IssueRepo repo) {
         this.repo = repo;
-    }
-
-    @PostMapping("/signout")
-    public ModelAndView signout(HttpServletRequest request) throws Exception{
-
-        URLConnection con = new URL("http://localhost:8080/getAuth").openConnection();
-
-        //Checking for JSESSIONID cookie
-        Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
-            System.out.println("Cookie is: " + cookie.getName());
-            if (cookie.getName().equals("JSESSIONID")) {
-                cookie.setMaxAge(0);
-                System.out.println("Cookie age: " + cookie.getMaxAge());
-            }
-        }
-
-        return new ModelAndView("home");
     }
 
     @GetMapping("/")
@@ -73,7 +50,6 @@ public class IssueController {
         return new ModelAndView("insertIssueForm", "issue", new Issue());
     }
 
-    //Check if already exists
     @PostMapping("/insert_issue")
     public ModelAndView insertIssue(@ModelAttribute Issue issue) {
         repo.save(issue);
