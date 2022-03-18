@@ -12,7 +12,7 @@ Spring Boot 2.6.1
 
 ## Running the Application
 
-The application can be run using 'mvn spring-boot:run' from the 'issues' directory and can be reached at 'localhost:8081/'.
+The application can be run using ```mvn spring-boot:run``` and can be reached at [localhost:8081](localhost:8081).
 
 ## Usage
 
