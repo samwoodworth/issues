@@ -22,7 +22,7 @@ links to each endpoint are available. There are links to view all the issues,
 find a certain issue by ID, insert a custom issue with user input, insert an issue with arbitrary data,
 and insert a specified number of issues with arbitrary data.
 
-### Authentication 
+## Authentication 
 
 Before the API call is made, an interceptor checks for the 'JSESSIONID' cookie. If it is present then the call continues.
-If it does not, then a 401 unauthorized status code and no data will be returned.
+If it is not, then a 401 unauthorized status code and no data will be returned.
